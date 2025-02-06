@@ -100,7 +100,7 @@ library(kableExtra)
 
 2. Load the met data from https://raw.githubusercontent.com/JSC370/JSC370-2024/main/data/met_all_2023.gz, and also the station data. For the latter, you can use the code we used during lecture to pre-process the stations data:
 
-```{r stations-data, eval = FALSE}
+```{r stations-data, eval = TRUE}
 # Download the data
 stations <- fread("ftp://ftp.ncdc.noaa.gov/pub/data/noaa/isd-history.csv")
 stations[, USAF := as.integer(USAF)]
@@ -122,7 +122,7 @@ stations <- stations[n == 1,][, n := NULL]
 ```
 
 
-```{r stations-data, eval = FALSE}
+```{r met-data, eval = TRUE}
 # Read in the met data
 url <- "https://raw.githubusercontent.com/JSC370/JSC370-2025/main/data/met/met_all.gz"
 local_path <- "met_all.gz"
@@ -177,7 +177,7 @@ med_wind.sp_station <- station_med[wind.sp_dist == 0]
 station_med[, atm.press_dist := abs(atm.press - true_med$atm.press_50)] |> head()
 med_atm.press_station <- station_med[atm.press_dist == 0]
 
-print(med_temp_station, med_wind.sp_station, met_atm.press_station)
+print(med_temp_station, med_wind.sp_station, med_atm.press_station)
 ```
 
 
