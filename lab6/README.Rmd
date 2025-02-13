@@ -193,8 +193,7 @@ take advantage of vectorization of `stringr::str_extract`
 abstracts <- stringr::str_extract(pub_char_list, "<Abstract>(\\n|.)+</Abstract>")
 abstracts <- stringr::str_remove_all(abstracts, "</?[[:alnum:]]+>")
 abstracts <- stringr::str_replace_all(abstracts, "\\s{2,}", " ")
-```
-```{r}
+
 sum(is.na(abstracts))
 ```
 
@@ -206,8 +205,7 @@ Now, the title
 ```{r process-titles, eval = FALSE}
 titles <- stringr::str_extract(pub_char_list, "<ArticleTitle>(\\n|.)+</ArticleTitle>")
 titles <- stringr::str_remove_all(titles, "</?[[:alnum:]]+>")
-```
-```{r}
+
 sum(is.na(titles))
 ```
 
@@ -224,12 +222,10 @@ database <- data.frame(
   Abstracts = abstracts
 )
 knitr::kable(database)
+write.csv(database, "pubmed.csv", row.names=TRUE)
 ```
 
 Done! Knit the document, commit, and push.
-```{r}
-write.csv(database, "pubmed.csv", row.names=TRUE)
-```
 
 ## Final Pro Tip (optional)
 
