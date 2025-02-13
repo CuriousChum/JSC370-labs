@@ -46,13 +46,13 @@ counts <- as.character(counts)
 stringr::str_extract(counts, "[0-9]*,[0-9]+")
 ```
 
- - How many H5N1 papers are there?
+ - How many SARS-COV 2 papers are there?
 
 247,767 papers
 
 Don't forget to commit your work!
 
-## Question 2: Academic publications on H5N1 related to Canada
+## Question 2: Academic publications on COVID19 related to Canada
 
 Use the function `httr::GET()` to make the following query:
 
@@ -61,7 +61,7 @@ Use the function `httr::GET()` to make the following query:
 2. Query parameters:
 
     - db: pubmed
-    - term: h5n1 toronto
+    - term: covid19 toronto
     - retmax: 1000
 
 The parameters passed to the query are documented [here](https://www.ncbi.nlm.nih.gov/books/NBK25499/).
@@ -70,7 +70,10 @@ The parameters passed to the query are documented [here](https://www.ncbi.nlm.ni
 library(httr)
 query_ids <- GET(
   url   = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
-  query = list("")
+  query = list(
+    db = 'pubmed',
+    term = 'covid19 toronto',
+    retmax = '1000' )
 )
 
 # Extracting the content of the response of GET
