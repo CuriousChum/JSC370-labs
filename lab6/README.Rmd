@@ -5,6 +5,7 @@ output: html_document
 
 ```{r setup, echo=FALSE}
 knitr::opts_chunk$set(include  = TRUE)
+library(stringr)
 ```
 
 
@@ -73,7 +74,7 @@ query_ids <- GET(
   query = list(
     db = 'pubmed',
     term = 'covid19 toronto',
-    retmax = 1000)
+    retmax = 300)
 )
 
 # Extracting the content of the response of GET
@@ -123,7 +124,7 @@ publications <- GET(
   query = list(
     db = 'pubmed',
     id = paste(ids, collapse=','),
-    retmax = 1000,
+    retmax = 300,
     rettype = 'abstract'
     )
 )
@@ -189,37 +190,46 @@ Now, extract the abstract and article title for each one of the elements of
 take advantage of vectorization of `stringr::str_extract`
 
 ```{r extracting-last-bit, eval = FALSE}
-abstracts <- str_extract(pub_char_list, "[YOUR REGULAR EXPRESSION]")
-abstracts <- str_remove_all(abstracts, "[CLEAN ALL THE HTML TAGS]")
-abstracts <- str_remove_all(abstracts, "[CLEAN ALL EXTRA WHITE SPACE AND NEW LINES]")
+abstracts <- stringr::str_extract(pub_char_list, "<Abstract>(\\n|.)+</Abstract>")
+abstracts <- stringr::str_remove_all(abstracts, "</?[[:alnum:]]+>")
+abstracts <- stringr::str_replace_all(abstracts, "\\s{2,}", " ")
+```
+```{r}
+sum(is.na(abstracts))
 ```
 
-  - How many of these don't have an abstract? 
-
-_Answer here._
+- How many of these don't have an abstract? 
+15
 
 Now, the title
 
 ```{r process-titles, eval = FALSE}
-titles <- str_extract(pub_char_list, "[YOUR REGULAR EXPRESSION]")
-titles <- str_remove_all(titles, "[CLEAN ALL THE HTML TAGS]")
+titles <- stringr::str_extract(pub_char_list, "<ArticleTitle>(\\n|.)+</ArticleTitle>")
+titles <- stringr::str_remove_all(titles, "</?[[:alnum:]]+>")
+```
+```{r}
+sum(is.na(titles))
 ```
 
-- How many of these don't have a title ? 
-
-_Answer here._
+- How many of these don't have a title ?
+0
 
 Finally, put everything together into a single `data.frame` and use
 `knitr::kable` to print the results
 
 ```{r build-db, eval = FALSE}
 database <- data.frame(
-  "[DATA TO CONCATENATE]"
+  PubMedId = ids,
+  Titles  = titles,
+  Abstracts = abstracts
 )
 knitr::kable(database)
 ```
 
 Done! Knit the document, commit, and push.
+```{r}
+write.csv(database, "pubmed.csv", row.names=TRUE)
+```
 
 ## Final Pro Tip (optional)
 
