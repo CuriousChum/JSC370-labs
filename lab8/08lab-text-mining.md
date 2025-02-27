@@ -1,10 +1,10 @@
 Lab 08 - Text Mining/NLP
 ================
 
-Link to repo
+<a href="https://github.com/CuriousChum/JSC370-labs/blob/main/lab8/08lab-text-mining.md" target="_blank">link
+to GitHub repo</a>
 
-<a href="https://github.com/CuriousChum/JSC370-labs" target="_blank">link
-to GitHub repo</a> \# Learning goals
+# Learning goals
 
 - Use `unnest_tokens()` and `unnest_ngrams()` to extract tokens and
   ngrams from text
